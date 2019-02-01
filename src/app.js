@@ -1,15 +1,17 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
+import { hot } from 'react-hot-loader/root'
+import SplashScreen from './components/Splash'
 
-export default class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { loaded: false }
-  }
-  componentDidMount() {
-    this.setState({ loaded: true })
-  }
+import './styles/app.css'
+import MainView from './screens/main'
 
-  render() {
-    return this.state.loaded ? <div> React App </div> : null
-  }
+const App = () => {
+  const [loaded, updateLoaded] = useState(false)
+  useEffect(() => {
+    let handler = setTimeout(() => updateLoaded(true), 1500)
+    return () => clearTimeout(handler)
+  }, [])
+  return loaded ? <MainView /> : <SplashScreen />
 }
+
+export default hot(App)
